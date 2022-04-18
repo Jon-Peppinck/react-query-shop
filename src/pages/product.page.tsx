@@ -1,11 +1,37 @@
 import { FC } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import { useParams } from 'react-router-dom';
 
-const ProductPage: FC = () => {
-  const { id } = useParams();
+import Card from '../components/Card';
+import Loader from '../components/Loader';
+import { usePhotosData } from '../helpers/queries/usePhotosData';
+import { Photo } from '../models/Photo.interface';
 
-  return <div>product.page {id}</div>;
+const ProductPage: FC = () => {
+  let { id } = useParams();
+
+  const photosQuery = usePhotosData();
+
+  if (photosQuery.isLoading) return <Loader />;
+
+  if (photosQuery.isError) return <p>Error: {photosQuery.error.message}</p>;
+
+  const photos: Photo[] = photosQuery.data!;
+
+  const selectedPhoto = photos.find((photo: Photo) => photo.id === +id!)!;
+
+  return (
+    <div>
+      <Link to='/'>
+        <button type='button' className='bg-indigo-500 p-2 text-white'>
+          Back to All Products
+        </button>
+      </Link>
+      <Card photo={selectedPhoto} />
+    </div>
+  );
 };
 
 export default ProductPage;
