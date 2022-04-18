@@ -1,9 +1,6 @@
 import { FC } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-
 import { Link } from 'react-router-dom';
-
-import { usePhotosData } from '../helpers/queries/usePhotosData';
 import { WithChildren } from '../helpers/types/WithChildren';
 import { Photo } from '../models/Photo.interface';
 
@@ -21,7 +18,12 @@ const Item: FC<ItemProps> = ({ photo }: ItemProps) => {
         headers: {
           'content-type': 'application/json',
         },
-      }).then((res) => res.json());
+      }).then((res) => {
+        // uncomment to try out rollback
+
+        // throw new Error('random error');
+        return res.json();
+      });
     },
     {
       onMutate: (itemId) => {
@@ -30,10 +32,17 @@ const Item: FC<ItemProps> = ({ photo }: ItemProps) => {
         const newPhotos = oldPhotos.filter((photo) => photo.id !== itemId);
 
         queryClient.setQueryData(['photos'], () => newPhotos);
+
+        return function rollback() {
+          queryClient.setQueryData(['photos'], () => oldPhotos);
+        };
       },
-      onError: (error, variables, context: any) => {
-        queryClient.setQueryData(['photos'], () => context.oldPhotos);
+      onError: (error, variables, rollback: any) => {
+        console.error('Something went wrong!');
+        rollback();
       },
+      // uncomment to invalidate queries
+
       // onSettled: () => {
       //   queryClient.invalidateQueries(['photos'], { exact: true });
       // },
