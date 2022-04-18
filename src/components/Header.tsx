@@ -21,6 +21,14 @@ const Header: FC = () => {
         </div>
       </Link>
       <div>
+        <Link to='/cart'>
+          <button className='inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0 h-8'>
+            <span className='mr-2'>Cart</span>
+            <span className='inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full'>
+              3
+            </span>
+          </button>
+        </Link>
         <Link to='/management'>
           <button className='inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0'>
             Manage Products
