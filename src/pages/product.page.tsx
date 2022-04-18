@@ -29,7 +29,9 @@ const ProductPage: FC = () => {
           Back to All Products
         </button>
       </Link>
-      <Card photo={selectedPhoto} />
+      <div className='flex justify-center'>
+        <Card photo={selectedPhoto} />
+      </div>
     </div>
   );
 };

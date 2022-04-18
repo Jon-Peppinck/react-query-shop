@@ -1,7 +1,5 @@
 import { FC } from 'react';
 
-import { useQuery } from 'react-query';
-
 import Item from '../components/Item';
 import Loader from '../components/Loader';
 import { Photo } from '../models/Photo.interface';
@@ -17,13 +15,16 @@ const ProductsPage: FC = () => {
   const photos = photosQuery.data;
 
   return (
-    <div className='container flex flex-col mx-auto w-full items-center justify-center bg-white dark:bg-gray-800 rounded-lg shadow mt-32'>
-      <ul className='flex flex-col divide divide-y'>
-        {photos?.map((photo: Photo) => (
-          <Item key={photo.id} photo={photo} />
-        ))}
-      </ul>
-    </div>
+    <>
+      <h1 className='text-4xl mb-4'>All Products</h1>
+      <div className='container flex flex-col mx-auto w-full items-center justify-center bg-white dark:bg-gray-800 rounded-lg shadow'>
+        <ul className='flex flex-col divide divide-y'>
+          {photos?.map((photo: Photo) => (
+            <Item key={photo.id} photo={photo} />
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 
